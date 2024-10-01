@@ -9,4 +9,5 @@ def hello():
     point_response = requests.get(point_url)
     forecast_url = point_response.json()["properties"]["forecast"]
     forecast_response = requests.get(forecast_url)
-    return forecast_response.json()
+    forecast_response.json()
+    return render_template("index.html")
