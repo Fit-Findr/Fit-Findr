@@ -1,0 +1,53 @@
+.clothContainer {
+    width: 80%;
+    height: 215px;
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.buttonContainerRight{
+    width: 50%;
+    height: 215px;
+    display: flex;
+    align-items: center;
+}
+
+.buttonContainerLeft{
+    width: 50%;
+    height: 215px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+.imageContainer {
+    width: 50%;
+    height: 215px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ECDFCC;
+}
+
+.button {
+    border: none;
+    width: 70px;
+    height: 30px;
+    border-radius: 10px;
+    margin: 10px;
+    background-color: #3C3D37;
+    color: #ECDFCC;
+}
+
+.button:hover {
+    background-color: #ECDFCC;
+    color: #3C3D37;
+    cursor: pointer;
+}
+
+.button:active {
+    background-color: #3C3D37;
+    color: #ECDFCC;
+}
