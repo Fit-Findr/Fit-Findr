@@ -1,67 +1,41 @@
 import styles from './ClothSelector.module.css';
-import { useState,useEffect } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 
-function ClothSelector() {
-
-    const numArray = [0,1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+function ClothSelector({ images }) {
     const [index, setIndex] = useState(0);
 
+    const currentImage = images[index]; // Get the current image object
+
+    // Function to go to the next image
     function next() {
-        setIndex(index === numArray.length-1 ? 0 : index + 1);
+        setIndex(index === images.length - 1 ? 0 : index + 1);
     }
 
+    // Function to go to the previous image
     function prev() {
-        setIndex(index === 0 ? numArray.length-1 : index - 1);
+        setIndex(index === 0 ? images.length - 1 : index - 1);
     }
-
-
-    const [imageUrls, setImageUrls] = useState([]);
-    const [currentImageUrl, setCurrentImageUrl] = useState('');
-
-    useEffect(() => {
-        const fetchImages = async () => {
-            try {
-                const response = await axios.get('http://localhost:8080/api/images');
-                // Construct full URLs for all images
-                const urls = response.data.map(filename => `http://localhost:8080/uploads/${filename}`);
-                setImageUrls(urls);
-                if (urls.length > 0) {
-                    setCurrentImageUrl(urls[0]); 
-                }
-            } catch (error) {
-                console.error("Error fetching images:", error);
-            }
-        };
-
-        fetchImages();
-    }, []); 
 
     return (
         <div className={styles.clothContainer}>
-
             <div className={styles.buttonContainerLeft}>
                 <button className={styles.button} onClick={prev}>prev</button>
             </div>
 
-
             <div className={styles.imageContainer}>
-                {currentImageUrl && (  // Check if currentImageUrl is not empty
+                {currentImage && (  // Check if currentImage is not null
                     <img 
-                        src={currentImageUrl} 
-                        alt="Fetched Cloth" 
+                        src={`http://localhost:8080/uploads/${currentImage.filename}`}
+                        alt={currentImage.category}
                         className={styles.clothImage}
                     />
                 )}
             </div>
 
-
             <div className={styles.buttonContainerRight}>
                 <button className={styles.button} onClick={next}>next</button>
             </div>
-
         </div>
-        
     );
 }
 

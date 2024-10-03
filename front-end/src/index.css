@@ -5,6 +5,7 @@
 
 body {
   background-color: #697565;
+
 }
 
 .container {
@@ -60,4 +61,49 @@ body {
 .routeLink{
   text-decoration: none;
   color: inherit;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ECDFCC;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+.form-container input,
+.form-container select,
+.form-container textarea {
+  width: 100%;
+
+  margin: 10px 0;
+
+}
+
+.form-container button {
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #3C3D37;
+  color: #ECDFCC;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form-container button:hover {
+  background-color: #697565;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
