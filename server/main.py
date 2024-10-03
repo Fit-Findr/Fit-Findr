@@ -27,9 +27,9 @@ def upload_image():
     return jsonify({'message': 'Image uploaded successfully!', 'filename': file.filename}), 200
 
 
-@app.route('/uploads/<filename>', methods=['GET'])
-def get_image(filename):
-    return send_from_directory('uploads', filename)
+# @app.route('/uploads/<filename>', methods=['GET'])
+# def get_image(filename):
+#     return send_from_directory('uploads', filename)
 
 @app.route('/api/images', methods=['GET'])
 def list_images():
