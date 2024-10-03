@@ -3,7 +3,7 @@ import { useState,useEffect } from 'react';
 import ClothSelector from './ClothSelector/ClothSelector.jsx';
 import AddFits from './AddFits.jsx'; // Import your AddFits component
 import axios from 'axios';
-
+import Navbar from './Navbar/Navbar.jsx';
 function App() {
 
   // const fetchAPI = async () => {
@@ -18,15 +18,7 @@ function App() {
 
   return (
     <>
-      <div className="navbar">
-        <h1>Fit Finder</h1>
-        <ul>
-          <Link to="/add-fits" className='routeLink'>
-          <li>Add Fits</li>
-          </Link>
-          <li>Sign in</li>
-        </ul>
-      </div>
+      <Navbar />
       <div className='container'>
         <ClothSelector />
         <ClothSelector />
