@@ -107,3 +107,44 @@ body {
   justify-content: center;
   height: 100%;
 }
+
+.save-fits-button {
+  padding: 10px 20px;
+  background-color: #3C3D37;
+  color: #ECDFCC;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 10px;
+  transform: translateY(-10px);
+}
+
+.save-fits-button:hover {
+  background-color: #ECDFCC;
+    color: #3C3D37;
+    cursor: pointer;
+}
+
+.save-fits-button:active {
+  background-color: #3C3D37;
+    color: #ECDFCC;
+}
+
+.saved-fits-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.saved-fit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fit-image {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin: 5px;
+}
