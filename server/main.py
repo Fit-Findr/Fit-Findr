@@ -24,22 +24,6 @@ CORS(app)
 #         }
 #     )
 
-def get_dominant_color(image_path, k=1):
-    # Load the image
-    image = cv2.imread(image_path)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # Convert to RGB
-
-    # Reshape image to a 2D array of pixels
-    image = image.reshape((-1, 3))
-
-    # Perform KMeans clustering to find dominant color
-    kmeans = KMeans(n_clusters=k)
-    kmeans.fit(image)
-
-    # Get the dominant color
-    dominant_color = kmeans.cluster_centers_.astype(int)
-    
-    return dominant_color[0]  # Return RGB tuple
 
 
 @app.route('/upload', methods=['POST'])
