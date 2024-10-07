@@ -8,7 +8,9 @@ function Navbar() {
           <Link to="/add-fits" className={styles.routeLink}>
           <li>Add Fits</li>
           </Link>
-          <li>Sign in</li>
+          <Link to="/saved-fits" className={styles.routeLink}>
+          <li>Saved Fits</li>
+          </Link>
           <Link to="/" className={styles.routeLink}>
           <li>Home</li>
           </Link>

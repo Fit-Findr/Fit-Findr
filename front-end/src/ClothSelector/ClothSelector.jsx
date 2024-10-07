@@ -1,7 +1,7 @@
 import styles from './ClothSelector.module.css';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
-function ClothSelector({ images }) {
+function ClothSelector({ images, onSelect }) {
     const [index, setIndex] = useState(0);
 
     const currentImage = images[index]; // Get the current image object
@@ -16,10 +16,16 @@ function ClothSelector({ images }) {
         setIndex(index === 0 ? images.length - 1 : index - 1);
     }
 
+    useEffect(() => {
+        if (images[index]) {
+            onSelect(images[index]);
+        }
+    }, [index, images, onSelect]);
+
     return (
         <div className={styles.clothContainer}>
             <div className={styles.buttonContainerLeft}>
-                <button className={styles.button} onClick={prev}>prev</button>
+                <button className={styles.button} onClick={prev}>←</button>
             </div>
 
             <div className={styles.imageContainer}>
@@ -33,7 +39,7 @@ function ClothSelector({ images }) {
             </div>
 
             <div className={styles.buttonContainerRight}>
-                <button className={styles.button} onClick={next}>next</button>
+                <button className={styles.button} onClick={next}>→</button>
             </div>
         </div>
     );

@@ -24,6 +24,24 @@ CORS(app)
 #         }
 #     )
 
+def get_dominant_color(image_path, k=1):
+    # Load the image
+    image = cv2.imread(image_path)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # Convert to RGB
+
+    # Reshape image to a 2D array of pixels
+    image = image.reshape((-1, 3))
+
+    # Perform KMeans clustering to find dominant color
+    kmeans = KMeans(n_clusters=k)
+    kmeans.fit(image)
+
+    # Get the dominant color
+    dominant_color = kmeans.cluster_centers_.astype(int)
+    
+    return dominant_color[0]  # Return RGB tuple
+
+
 @app.route('/upload', methods=['POST'])
 def upload_image():
     if 'image' not in request.files or 'category' not in request.form:
@@ -34,6 +52,7 @@ def upload_image():
 
     # Save the file to the uploads folder
     file.save(f'./uploads/{file.filename}')
+    
 
     # Load the current metadata from the JSON file
     with open(metadata_file, 'r') as f:
@@ -96,6 +115,47 @@ def get_layers():
     # Filter for images in the 'layer' category
     layers = [item for item in metadata if item['category'] == 'layer']
     return jsonify(layers)
+
+@app.route('/api/save-fit', methods=['POST'])
+def save_fit():
+    data = request.json
+    top = data.get('top')
+    bottom = data.get('bottom')
+    layer = data.get('layer')
+
+    if not top or not bottom or not layer:
+        return jsonify({'error': 'Incomplete fit data'}), 400
+
+    # Load the current fits from the JSON file
+    fits_file = './uploads/fits.json'
+    if not os.path.exists(fits_file):
+        with open(fits_file, 'w') as f:
+            json.dump([], f)
+
+    with open(fits_file, 'r') as f:
+        fits = json.load(f)
+
+    # Add the new fit to the JSON data
+    fits.append({
+        'layer': layer,
+        'top': top,
+        'bottom': bottom
+    })
+
+    # Save the updated fits back to the JSON file
+    with open(fits_file, 'w') as f:
+        json.dump(fits, f)
+
+    return jsonify({'message': 'Fit saved successfully!'}), 200
+
+
+@app.route('/api/saved-fits', methods=['GET'])
+def get_saved_fits():
+
+    with open('./uploads/fits.json', 'r') as f:
+        fits = json.load(f)
+    return jsonify(fits)
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=8080)
