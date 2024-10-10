@@ -18,7 +18,7 @@ function App() {
         const fetchTops = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/images/tops');
-                setTops(response.data);
+                setTops([null,...response.data]);
             } catch (error) {
                 console.error('Error fetching tops:', error);
             }
@@ -28,7 +28,7 @@ function App() {
         const fetchBottoms = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/images/bottoms');
-                setBottoms(response.data);
+                setBottoms([null,...response.data]);
             } catch (error) {
                 console.error('Error fetching bottoms:', error);
             }
@@ -38,7 +38,7 @@ function App() {
         const fetchLayers = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/images/layers');
-                setLayers(response.data);
+                setLayers([null,...response.data]);
             } catch (error) {
                 console.error('Error fetching layers:', error);
             }
@@ -57,9 +57,9 @@ function App() {
         }
 
         const fit = {
-            top: selectedTop,
-            bottom: selectedBottom,
-            layer: selectedLayer,
+            top: selectedTop || null,
+            bottom: selectedBottom || null,
+            layer: selectedLayer || null,
         };
 
         try {
