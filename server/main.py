@@ -3,6 +3,8 @@ from flask import send_from_directory
 from flask_cors import CORS
 import os
 import json
+from colorthief import ColorThief  # For color detection
+from PIL import Image
 
 if not os.path.exists('./uploads'):
     os.makedirs('./uploads')
@@ -15,59 +17,58 @@ if not os.path.exists(metadata_file):
 app = Flask(__name__)
 CORS(app)
 
-# @app.route("/api/users", methods=["GET"])
-
-# def users():
-#     return jsonify(
-#         {
-#             "users": ["Alice", "Bob", "Charlie"]
-#         }
-#     )
-
-
-
 @app.route('/upload', methods=['POST'])
 def upload_image():
     if 'image' not in request.files or 'category' not in request.form:
         return jsonify({'error': 'No file or category in the request'}), 400
 
-    file = request.files['image']  # Get the uploaded file
-    category = request.form['category']  # Get the category
+    file = request.files['image']
+    category = request.form['category']
 
     # Save the file to the uploads folder
-    file.save(f'./uploads/{file.filename}')
-    
+    image_path = f'./uploads/{file.filename}'
+    file.save(image_path)
+
+    # Perform color detection on the uploaded image
+    dominant_colors = detect_colors(image_path)
 
     # Load the current metadata from the JSON file
     with open(metadata_file, 'r') as f:
         metadata = json.load(f)
 
-    # Add the new image's filename and category to the metadata
-    metadata.append({'filename': file.filename, 'category': category})
+    # Add the new image's filename, category, and detected colors to the metadata
+    metadata.append({
+        'filename': file.filename,
+        'category': category,
+        'colors': dominant_colors  # Store the detected colors
+    })
 
     # Save the updated metadata back to the JSON file
     with open(metadata_file, 'w') as f:
         json.dump(metadata, f)
 
-    return jsonify({'message': 'Image and category uploaded successfully!', 'filename': file.filename, 'category': category}), 200
+    return jsonify({
+        'message': 'Image, category, and colors uploaded successfully!',
+        'filename': file.filename,
+        'category': category,
+        'colors': dominant_colors
+    }), 200
 
+
+def detect_colors(image_path):
+    """
+    Detect dominant colors using the ColorThief library.
+    Returns a list of RGB color tuples.
+    """
+    color_thief = ColorThief(image_path)
+    # Get the dominant color
+    dominant_color = color_thief.get_color(quality=1)
+
+    return dominant_color
 
 @app.route('/uploads/<filename>', methods=['GET'])
 def get_image(filename):
     return send_from_directory('uploads', filename)
-
-@app.route('/api/images', methods=['GET'])
-def list_images():
-    uploads_dir = 'uploads' 
-    images = os.listdir(uploads_dir)  # Get list of files in uploads directory
-    return jsonify(images)
-
-@app.route('/api/metadata', methods=['GET'])
-def get_image_metadata():
-    # Return the image metadata from the JSON file
-    with open(metadata_file, 'r') as f:
-        metadata = json.load(f)
-    return jsonify(metadata)
 
 
 @app.route('/api/images/tops', methods=['GET'])

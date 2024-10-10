@@ -29,12 +29,15 @@ function ClothSelector({ images, onSelect }) {
             </div>
 
             <div className={styles.imageContainer}>
-                {currentImage && (  // Check if currentImage is not null
+                {currentImage ? (  // Check if currentImage is not null
+                    console.log(`http://localhost:8080/uploads/${currentImage.filename}`),
                     <img 
                         src={`http://localhost:8080/uploads/${currentImage.filename}`}
                         alt={currentImage.category}
                         className={styles.clothImage}
                     />
+                ) : (
+                     <div className="blank-image"></div>
                 )}
             </div>
 

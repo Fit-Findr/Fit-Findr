@@ -30,9 +30,9 @@ function SavedFits() {
           savedFits.map((fit, index) => {
             return (
               <div key={index} className="saved-fit">
-                <img src={`http://localhost:8080/uploads/${fit.layer.filename}`} alt="Layer" className="fit-image" />
-                <img src={`http://localhost:8080/uploads/${fit.top.filename}`} alt="Top" className="fit-image" />
-                <img src={`http://localhost:8080/uploads/${fit.bottom.filename}`} alt="Bottom" className="fit-image" />
+                {fit.layer ? (<img src={`http://localhost:8080/uploads/${fit.layer.filename}`} alt="Layer" className="fit-image" />) : (<div className="blank-image"></div>)}
+                {fit.top ? (<img src={`http://localhost:8080/uploads/${fit.top.filename}`} alt="Top" className="fit-image" />) : (<div className="blank-image"></div>)}
+                {fit.bottom ? (<img src={`http://localhost:8080/uploads/${fit.bottom.filename}`} alt="Bottom" className="fit-image" />) : (<div className="blank-image"></div>)}
               </div>
             );
           })
