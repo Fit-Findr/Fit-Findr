@@ -65,7 +65,7 @@ Before running the project, ensure you have the following installed:
 
 4. **Install Flask and other dependencies**:
    ```bash
-   pip install Flask Flask-CORS
+   pip install -r requirements.txt
    ```
 
 5. **Run the Flask application**:
