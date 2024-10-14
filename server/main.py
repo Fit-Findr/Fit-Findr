@@ -24,6 +24,7 @@ def upload_image():
 
     file = request.files['image']
     category = request.form['category']
+    subcategory = request.form.get('subcategory')
 
     # Save the file to the uploads folder
     image_path = f'./uploads/{file.filename}'
@@ -31,7 +32,7 @@ def upload_image():
 
     # Perform color detection on the uploaded image
     dominant_colors = detect_colors(image_path)
-
+    
     # Load the current metadata from the JSON file
     with open(metadata_file, 'r') as f:
         metadata = json.load(f)
@@ -40,6 +41,7 @@ def upload_image():
     metadata.append({
         'filename': file.filename,
         'category': category,
+        'subcategory': subcategory,
         'colors': dominant_colors  # Store the detected colors
     })
 
@@ -51,6 +53,7 @@ def upload_image():
         'message': 'Image, category, and colors uploaded successfully!',
         'filename': file.filename,
         'category': category,
+        'subcategory': subcategory,
         'colors': dominant_colors
     }), 200
 

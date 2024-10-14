@@ -37,12 +37,12 @@
     height: 30px;
     border-radius: 10px;
     margin: 10px;
-    background-color: #3C3D37;
+    background-color: #444F51;
     color: #ECDFCC;
 }
 
 .button:hover {
-    background-color: #ECDFCC;
+    background-color: #767a7a;
     color: #3C3D37;
     cursor: pointer;
 }
