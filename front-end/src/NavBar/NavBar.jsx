@@ -11,6 +11,9 @@ function Navbar() {
           <Link to="/saved-fits" className={styles.routeLink}>
           <li>Saved Fits</li>
           </Link>
+          <Link to="/generate-fits" className={styles.routeLink}>
+          <li>Generate</li>
+          </Link>
           <Link to="/" className={styles.routeLink}>
           <li>Home</li>
           </Link>
