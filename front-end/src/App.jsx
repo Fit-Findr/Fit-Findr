@@ -9,10 +9,13 @@ function App() {
     const [tops, setTops] = useState([]);
     const [bottoms, setBottoms] = useState([]);
     const [layers, setLayers] = useState([]);
+    const [selectedTop, setSelectedTop] = useState(null);
+    const [selectedBottom, setSelectedBottom] = useState(null);
+    const [selectedLayer, setSelectedLayer] = useState(null);
     const [temp, setTemp] = useState([]);
 
     useEffect(() => {
-        // Fetch tops
+        
         const fetchTops = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/images/tops');
@@ -22,7 +25,7 @@ function App() {
             }
         };
 
-        // Fetch bottoms
+        
         const fetchBottoms = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/images/bottoms');
@@ -32,7 +35,7 @@ function App() {
             }
         };
 
-        // Fetch layers
+        
         const fetchLayers = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/images/layers');
@@ -91,15 +94,37 @@ function App() {
         fetchLayers();
     }, []);
 
+    const handleSaveFit = async () => {
+        if (!selectedTop || !selectedBottom || !selectedLayer) {
+            alert('Please select a top, bottom, and layer.');
+            return;
+        }
+
+        const fit = {
+            top: selectedTop,
+            bottom: selectedBottom,
+            layer: selectedLayer,
+        };
+
+        try {
+            const response = await axios.post('http://localhost:8080/api/save-fit', fit);
+            console.log('Fit saved successfully:', response.data);
+        } catch (error) {
+            console.error('Error saving fit:', error);
+            alert('Failed to save fit.');
+        }
+    };
+
   
 
   return (
     <>
       <Navbar />
       <div className='container'>
-        <ClothSelector images={layers}/>
-        <ClothSelector images={tops}/>
-        <ClothSelector images={bottoms}/>
+        <ClothSelector images={layers} onSelect={setSelectedLayer}/>
+        <ClothSelector images={tops} onSelect={setSelectedTop}/>
+        <ClothSelector images={bottoms} onSelect={setSelectedBottom}/>
+        <button className="save-fits-button" onClick={handleSaveFit}>Save Fit</button>
       </div>
     </>
   );
