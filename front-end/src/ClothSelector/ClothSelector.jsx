@@ -1,5 +1,6 @@
 import styles from './ClothSelector.module.css';
 import { useState,useEffect } from 'react';
+import {baseUrl} from '../main.jsx';
 
 function ClothSelector({ images, onSelect }) {
     const [index, setIndex] = useState(0);
@@ -31,7 +32,7 @@ function ClothSelector({ images, onSelect }) {
             <div className={styles.imageContainer}>
                 {currentImage && (  // Check if currentImage is not null
                     <img 
-                        src={`http://localhost:8080/uploads/${currentImage.filename}`}
+                        src={`${baseUrl}/uploads/${currentImage.filename}`}
                         alt={currentImage.category}
                         className={styles.clothImage}
                     />

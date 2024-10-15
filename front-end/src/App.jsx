@@ -4,6 +4,8 @@ import ClothSelector from './ClothSelector/ClothSelector.jsx';
 import AddFits from './AddFits.jsx'; // Import your AddFits component
 import axios from 'axios';
 import Navbar from './Navbar/Navbar.jsx';
+import {baseUrl} from './main.jsx';
+
 function App() {
 
     const [tops, setTops] = useState([]);
@@ -14,11 +16,11 @@ function App() {
     const [selectedLayer, setSelectedLayer] = useState(null);
     const [temp, setTemp] = useState([]);
 
-    useEffect(() => {
+        useEffect(() => {
         
         const fetchTops = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/images/tops');
+                const response = await axios.get(`${baseUrl}/api/images/tops`);
                 setTops(response.data);
             } catch (error) {
                 console.error('Error fetching tops:', error);
@@ -28,7 +30,7 @@ function App() {
         
         const fetchBottoms = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/images/bottoms');
+                const response = await axios.get(`${baseUrl}/api/images/bottoms`);
                 setBottoms(response.data);
             } catch (error) {
                 console.error('Error fetching bottoms:', error);
@@ -38,7 +40,7 @@ function App() {
         
         const fetchLayers = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/images/layers');
+                const response = await axios.get(`${baseUrl}/api/images/layers`);
                 setLayers(response.data);
             } catch (error) {
                 console.error('Error fetching layers:', error);
@@ -107,7 +109,7 @@ function App() {
         };
 
         try {
-            const response = await axios.post('http://localhost:8080/api/save-fit', fit);
+            const response = await axios.post(`${baseUrl}/api/save-fit`, fit);
             console.log('Fit saved successfully:', response.data);
         } catch (error) {
             console.error('Error saving fit:', error);

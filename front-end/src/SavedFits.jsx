@@ -1,6 +1,7 @@
 import { useState,useEffect } from "react";
 import Navbar from "./Navbar/Navbar";
 import axios from "axios";
+import {baseUrl} from './main.jsx';
 
 function SavedFits() {
 
@@ -9,7 +10,7 @@ function SavedFits() {
     useEffect(() => {
         const fetchSavedFits = async () => {
           try {
-            const response = await axios.get('http://localhost:8080/api/saved-fits');
+            const response = await axios.get(`${baseUrl}/api/saved-fits`);
             setSavedFits(response.data); 
           } catch (error) {
             console.error('Error fetching saved fits:', error);
@@ -30,9 +31,9 @@ function SavedFits() {
           savedFits.map((fit, index) => {
             return (
               <div key={index} className="saved-fit">
-                <img src={`http://localhost:8080/uploads/${fit.layer.filename}`} alt="Layer" className="fit-image" />
-                <img src={`http://localhost:8080/uploads/${fit.top.filename}`} alt="Top" className="fit-image" />
-                <img src={`http://localhost:8080/uploads/${fit.bottom.filename}`} alt="Bottom" className="fit-image" />
+                <img src={`${baseUrl}/uploads/${fit.layer.filename}`} alt="Layer" className="fit-image" />
+                <img src={`${baseUrl}/uploads/${fit.top.filename}`} alt="Top" className="fit-image" />
+                <img src={`${baseUrl}/uploads/${fit.bottom.filename}`} alt="Bottom" className="fit-image" />
               </div>
             );
           })
