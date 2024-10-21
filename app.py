@@ -15,6 +15,10 @@ if not os.path.exists(metadata_file):
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/')
+def home():
+    return "<h1>Hello world</h1>"
+
 # @app.route("/api/users", methods=["GET"])
 
 # def users():
@@ -140,5 +144,5 @@ def get_saved_fits():
         fits = json.load(f)
     return jsonify(fits)
 
-
-app.run(debug=True, port=8080)
+if __name__ == "__main__":
+    app.run(debug=True, port=8080)
