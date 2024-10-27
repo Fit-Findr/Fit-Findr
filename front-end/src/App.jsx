@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { useState,useEffect } from 'react';
 import ClothSelector from './ClothSelector/ClothSelector.jsx';
-import AddFits from './AddFits.jsx'; // Import your AddFits component
+import AddFits from './AddFits.jsx';
 import axios from 'axios';
 import Navbar from './Navbar/Navbar.jsx';
 function App() {
@@ -12,6 +12,48 @@ function App() {
     const [selectedTop, setSelectedTop] = useState(null);
     const [selectedBottom, setSelectedBottom] = useState(null);
     const [selectedLayer, setSelectedLayer] = useState(null);
+    const [temp, setTemp] = useState(null);
+    const [loadingTemp, setLoadingTemp] = useState(true);
+
+    const getTemperatureAtPoint = async (lat, lon) => { 
+        // Get data about lat lon point       
+        const point_url = "https://api.weather.gov/points/" + lat + "," + lon;
+        const response = await fetch(point_url);
+        if (!response.ok) {
+            console.log("Error fetching point data");
+            return;
+        }
+
+        // Get url for forecast at point
+        const point_json = await response.json();
+        const forecast_url = point_json["properties"]["forecast"];
+
+        // Fetch forecast data using url
+        const forecast_response = await fetch(forecast_url);
+        if (!forecast_response.ok) {
+            console.log("Error fetching forecast data");
+            return;
+        }
+
+        // Get temperature from the next available forecast period
+        const forecast_json = await forecast_response.json();
+        const forecast_periods = forecast_json["properties"]["periods"];
+        if (forecast_periods.length == 0) {
+            console.log("No available forecasts");
+            return;
+        }
+        const first_forecast_period = forecast_periods[0];
+        const temperature = first_forecast_period["temperature"];
+        setLoadingTemp(false);
+        setTemp(temperature);
+    }
+
+    const getWeatherForLocation = async () => {
+        // Get lat lon and fetch temp at that location
+        navigator.geolocation.getCurrentPosition((position) => {
+            getTemperatureAtPoint(position.coords.latitude, position.coords.longitude);
+          });
+    }
 
     useEffect(() => {
         
@@ -48,13 +90,11 @@ function App() {
         fetchTops();
         fetchBottoms();
         fetchLayers();
+        getWeatherForLocation();
     }, []);
 
     const handleSaveFit = async () => {
-        if (!selectedTop || !selectedBottom || !selectedLayer) {
-            alert('Please select a top, bottom, and layer.');
-            return;
-        }
+        
 
         const fit = {
             top: selectedTop || null,
@@ -76,6 +116,13 @@ function App() {
   return (
     <>
       <Navbar />
+        <div className='temperature'>
+            {loadingTemp ? (
+                <p>Loading temperature...</p>
+            ) : (
+                <p>High Today: {temp}°F</p>
+            )}
+        </div>
       <div className='container'>
         <ClothSelector images={layers} onSelect={setSelectedLayer}/>
         <ClothSelector images={tops} onSelect={setSelectedTop}/>

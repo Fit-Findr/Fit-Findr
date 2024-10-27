@@ -25,7 +25,7 @@ function SavedFits() {
         <Navbar />
         <div className="saved-fits-container">
         {savedFits.length === 0 ? (
-          <p>No saved fits yet.</p>
+          <p className="no-fits">No saved fits yet.</p>
         ) : (
           savedFits.map((fit, index) => {
             return (

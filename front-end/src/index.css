@@ -112,6 +112,7 @@ body {
 }
 
 .save-fits-button {
+  margin-top: 20px;
   padding: 10px 20px;
   background-color: var(--secondary-color);
   color: var(--accent-color);
@@ -220,8 +221,40 @@ body {
   justify-content: center;
 }
 
+.blank-image-playground {
+  width: 225px;
+  height: 225px;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
 .blank-image {
   width: 225px;
   height: 225px;
 }
 
+.temperature {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--accent-color);
+  color: var(--secondary-color);
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 4px 8px var(--shadow-color);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.no-fits {
+  margin-top: 25%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--accent-color);
+  color: var(--secondary-color);
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 4px 8px var(--shadow-color);
+  transition: background-color 0.3s, transform 0.2s;
+}
