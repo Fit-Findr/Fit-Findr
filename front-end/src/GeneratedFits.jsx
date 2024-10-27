@@ -14,7 +14,48 @@ function GeneratedFits() {
     const [selectedTop, setSelectedTop] = useState();
     const [selectedBottom, setSelectedBottom] = useState();
     const [selectedLayer, setSelectedLayer] = useState();
-    const temp = 90;
+    const [temp, setTemp] = useState(null);
+    const [loadingTemp, setLoadingTemp] = useState(true);
+
+    const getTemperatureAtPoint = async (lat, lon) => { 
+        // Get data about lat lon point       
+        const point_url = "https://api.weather.gov/points/" + lat + "," + lon;
+        const response = await fetch(point_url);
+        if (!response.ok) {
+            console.log("Error fetching point data");
+            return;
+        }
+
+        // Get url for forecast at point
+        const point_json = await response.json();
+        const forecast_url = point_json["properties"]["forecast"];
+
+        // Fetch forecast data using url
+        const forecast_response = await fetch(forecast_url);
+        if (!forecast_response.ok) {
+            console.log("Error fetching forecast data");
+            return;
+        }
+
+        // Get temperature from the next available forecast period
+        const forecast_json = await forecast_response.json();
+        const forecast_periods = forecast_json["properties"]["periods"];
+        if (forecast_periods.length == 0) {
+            console.log("No available forecasts");
+            return;
+        }
+        const first_forecast_period = forecast_periods[0];
+        const temperature = first_forecast_period["temperature"];
+        setLoadingTemp(false);
+        setTemp(temperature);
+    }
+
+    const getWeatherForLocation = async () => {
+        // Get lat lon and fetch temp at that location
+        navigator.geolocation.getCurrentPosition((position) => {
+            getTemperatureAtPoint(position.coords.latitude, position.coords.longitude);
+          });
+    }
 
     const fetchClothing = async () => {
         try {
@@ -36,6 +77,7 @@ function GeneratedFits() {
 
     // Perform filtering based on temperature
     const filterClothing = (topsData, bottomsData, layersData) => {
+        console.log('Filtering clothing based on temperature:', temp);
         let newFilteredTops = topsData.slice();
         let newFilteredBottoms = bottomsData.slice();
         let newFilteredLayers = layersData.slice();
@@ -61,8 +103,11 @@ function GeneratedFits() {
 
 
     useEffect(() => {
-        fetchClothing();
-    }, []); 
+        getWeatherForLocation();
+        if (temp !== null) {
+            fetchClothing();
+        }
+    }, [temp]); 
 
 
     function distance(x1, y1, z1, x2, y2, z2) {
@@ -103,92 +148,69 @@ function GeneratedFits() {
     }
 
     function generateOutfit() {
-        // Check if filteredTops is empty
         if (filteredTops.length === 0) {
             console.warn('No tops available');
             return;
         }
+
     
         const randomTop = filteredTops[Math.floor(Math.random() * filteredTops.length)];
         const topColor = rgbToColor(randomTop.colors[0], randomTop.colors[1], randomTop.colors[2]);
-    
-        const neutralBottoms = filteredBottoms.length > 0 ? filteredBottoms.filter(bottom => {
+        console.log(`Selected Top Color: ${topColor}`, randomTop);
+        const neutralBottoms = filteredBottoms.filter(bottom => {
             const bottomColor = rgbToColor(bottom.colors[0], bottom.colors[1], bottom.colors[2]);
             return ['Black', 'Brown', 'Tan', 'Grey', 'White'].includes(bottomColor);
-        }) : [];
-    
-        const relatedBottoms = filteredBottoms.length > 0 ? filteredBottoms.filter(bottom => {
-            const bottomColor = rgbToColor(bottom.colors[0], bottom.colors[1], bottom.colors[2]);
-            const dist = distance(
-                randomTop.colors[0] / 255, randomTop.colors[1] / 255, randomTop.colors[2] / 255,
-                bottom.colors[0] / 255, bottom.colors[1] / 255, bottom.colors[2] / 255
-            );
-            return dist <= 0.2;
-        }) : [];
-    
-        
-        const neutralLayers = filteredLayers.length > 0 ? filteredLayers.filter(layer => {
+        });
+        const neutralLayers = filteredLayers.filter(layer => {
             const layerColor = rgbToColor(layer.colors[0], layer.colors[1], layer.colors[2]);
             return ['Black', 'Brown', 'Tan', 'Grey', 'White'].includes(layerColor);
-        }) : [];
+        });
     
-        const relatedLayers = filteredLayers.length > 0 ? filteredLayers.filter(layer => {
-            const layerColor = rgbToColor(layer.colors[0], layer.colors[1], layer.colors[2]);
-            const dist = distance(
-                randomTop.colors[0] / 255, randomTop.colors[1] / 255, randomTop.colors[2] / 255,
-                layer.colors[0] / 255, layer.colors[1] / 255, layer.colors[2] / 255
-            );
-            return dist <= 0.2;
-        }) : [];
-    
-        // Randomly select a bottom
-        const randomBottom = relatedBottoms.length > 0 
-            ? relatedBottoms[Math.floor(Math.random() * relatedBottoms.length)] 
-            : (neutralBottoms.length > 0 
-                ? neutralBottoms[Math.floor(Math.random() * neutralBottoms.length)] 
-                : filteredBottoms[Math.floor(Math.random() * filteredBottoms.length)]);
-    
-        // Randomly select a layer
-        const randomLayer = relatedLayers.length > 0 
-            ? relatedLayers[Math.floor(Math.random() * relatedLayers.length)] 
-            : (neutralLayers.length > 0 
-                ? neutralLayers[Math.floor(Math.random() * neutralLayers.length)] 
-                : filteredLayers[Math.floor(Math.random() * filteredLayers.length)]);
-    
-
+        const randomBottom = neutralBottoms.length > 0
+            ? neutralBottoms[Math.floor(Math.random() * neutralBottoms.length)]
+            : filteredBottoms[Math.floor(Math.random() * filteredBottoms.length)];
+        const bottomColor = rgbToColor(randomBottom.colors[0], randomBottom.colors[1], randomBottom.colors[2]);
+        console.log(`Selected Bottom Color: ${bottomColor}`, randomBottom);
+        const randomLayer = neutralLayers.length > 0
+            ? neutralLayers[Math.floor(Math.random() * neutralLayers.length)]
+            : filteredLayers[Math.floor(Math.random() * filteredLayers.length)];
+        const layerColor = randomLayer ? rgbToColor(randomLayer.colors[0], randomLayer.colors[1], randomLayer.colors[2]) : 'No layer selected';
+        console.log(`Selected Layer Color: ${layerColor}`, randomLayer);
         setSelectedTop(randomTop);
         setSelectedBottom(randomBottom);
         setSelectedLayer(randomLayer);
+
+        
+        
     }
     
 
     return (
+        
         <div>
+            
     <Navbar />
     <div className="main-container">
         <div className="outfit-container">
-            {/* Layer: Image or placeholder */}
             {selectedLayer ? (
                 <img src={`http://localhost:8080/uploads/${selectedLayer.filename}`} alt="Layer" className="generated-image"/>
             ) : (
                 <div className="blank-image"></div>
             )}
 
-            {/* Top: Image or placeholder */}
             {selectedTop ? (
                 <img src={`http://localhost:8080/uploads/${selectedTop.filename}`} alt="Top" className="generated-image"/>
             ) : (
                 <div className="blank-image"></div>
             )}
 
-            {/* Bottom: Image or placeholder */}
             {selectedBottom ? (
                 <img src={`http://localhost:8080/uploads/${selectedBottom.filename}`} alt="Bottom" className="generated-image"/>
             ) : (
                 <div className="blank-image"></div>
             )}
 
-            <button className="generate-button" onClick={generateOutfit}>Generate Outfit</button>
+            <button disabled={loadingTemp || temp === null} className="generate-button" onClick={generateOutfit}>{loadingTemp ? 'Loading Weather...' : 'Generate Fit'}</button>
         </div>
     </div>
 </div>
