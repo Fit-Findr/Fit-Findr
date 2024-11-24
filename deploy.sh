@@ -12,3 +12,5 @@ pip install -r requirements.txt
 # Step 3: Start Flask app (or use gunicorn)
 #python app.py
 flask run
+
+cd ..
