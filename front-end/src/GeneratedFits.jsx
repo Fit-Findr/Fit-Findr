@@ -1,5 +1,5 @@
 import ClothSelector from "./ClothSelector/ClothSelector.jsx";
-import Navbar from "./Navbar/Navbar.jsx";
+import Navbar from "./NavBar/NavBar.jsx";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 

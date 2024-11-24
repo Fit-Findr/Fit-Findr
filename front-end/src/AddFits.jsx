@@ -1,4 +1,4 @@
-import Navbar from "./Navbar/Navbar.jsx";
+import Navbar from "./NavBar/NavBar.jsx";
 import React, { useState } from 'react';
 import axios from 'axios'; // To make HTTP requests
 
