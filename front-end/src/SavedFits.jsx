@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react";
-import Navbar from "./Navbar/Navbar";
+
 import axios from "axios";
 
 function SavedFits() {
