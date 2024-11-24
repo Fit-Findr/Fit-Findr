@@ -3,7 +3,7 @@ import { useState,useEffect } from 'react';
 import ClothSelector from './ClothSelector/ClothSelector.jsx';
 import AddFits from './AddFits.jsx';
 import axios from 'axios';
-import Navbar from './Navbar/Navbar.jsx';
+import Navbar from './NavBar/NavBar.jsx';
 function App() {
 
     const [tops, setTops] = useState([]);
