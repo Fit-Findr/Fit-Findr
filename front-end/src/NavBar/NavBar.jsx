@@ -1,4 +1,4 @@
-import styles from './Navbar.module.css';
+import styles from './NavBar.module.css';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 function Navbar() {
   return (
