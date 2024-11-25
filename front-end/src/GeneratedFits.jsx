@@ -60,9 +60,9 @@ function GeneratedFits() {
     const fetchClothing = async () => {
         try {
             const [topsRes, bottomsRes, layersRes] = await Promise.all([
-                axios.get('http://localhost:8080/api/images/tops'),
-                axios.get('http://localhost:8080/api/images/bottoms'),
-                axios.get('http://localhost:8080/api/images/layers')
+                axios.get('https://fit-finder-server-cafdcuckbbche3c9.centralus-01.azurewebsites.net/api/images/tops'),
+                axios.get('https://fit-finder-server-cafdcuckbbche3c9.centralus-01.azurewebsites.net/api/images/bottoms'),
+                axios.get('https://fit-finder-server-cafdcuckbbche3c9.centralus-01.azurewebsites.net/api/images/layers')
             ]);
 
             setTops(topsRes.data);
@@ -193,19 +193,19 @@ function GeneratedFits() {
     <div className="main-container">
         <div className="outfit-container">
             {selectedLayer ? (
-                <img src={`http://localhost:8080/uploads/${selectedLayer.filename}`} alt="Layer" className="generated-image"/>
+                <img src={`https://fit-finder-server-cafdcuckbbche3c9.centralus-01.azurewebsites.net/uploads/${selectedLayer.filename}`} alt="Layer" className="generated-image"/>
             ) : (
                 <div className="blank-image"></div>
             )}
 
             {selectedTop ? (
-                <img src={`http://localhost:8080/uploads/${selectedTop.filename}`} alt="Top" className="generated-image"/>
+                <img src={`https://fit-finder-server-cafdcuckbbche3c9.centralus-01.azurewebsites.net/uploads/${selectedTop.filename}`} alt="Top" className="generated-image"/>
             ) : (
                 <div className="blank-image"></div>
             )}
 
             {selectedBottom ? (
-                <img src={`http://localhost:8080/uploads/${selectedBottom.filename}`} alt="Bottom" className="generated-image"/>
+                <img src={`https://fit-finder-server-cafdcuckbbche3c9.centralus-01.azurewebsites.net/uploads/${selectedBottom.filename}`} alt="Bottom" className="generated-image"/>
             ) : (
                 <div className="blank-image"></div>
             )}

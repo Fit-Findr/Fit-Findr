@@ -59,7 +59,7 @@ function App() {
         
         const fetchTops = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/images/tops');
+                const response = await axios.get('https://fit-finder-server-cafdcuckbbche3c9.centralus-01.azurewebsites.net/api/images/tops');
                 setTops([null,...response.data]);
             } catch (error) {
                 console.error('Error fetching tops:', error);
@@ -69,7 +69,7 @@ function App() {
         
         const fetchBottoms = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/images/bottoms');
+                const response = await axios.get('https://fit-finder-server-cafdcuckbbche3c9.centralus-01.azurewebsites.net/api/images/bottoms');
                 setBottoms([null,...response.data]);
             } catch (error) {
                 console.error('Error fetching bottoms:', error);
@@ -79,7 +79,7 @@ function App() {
         
         const fetchLayers = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/images/layers');
+                const response = await axios.get('https://fit-finder-server-cafdcuckbbche3c9.centralus-01.azurewebsites.net/api/images/layers');
                 setLayers([null,...response.data]);
             } catch (error) {
                 console.error('Error fetching layers:', error);
@@ -103,7 +103,7 @@ function App() {
         };
 
         try {
-            const response = await axios.post('http://localhost:8080/api/save-fit', fit);
+            const response = await axios.post('https://fit-finder-server-cafdcuckbbche3c9.centralus-01.azurewebsites.net/api/save-fit', fit);
             console.log('Fit saved successfully:', response.data);
         } catch (error) {
             console.error('Error saving fit:', error);

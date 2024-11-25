@@ -31,7 +31,7 @@ function ClothSelector({ images, onSelect }) {
             <div className={styles.imageContainer}>
                 {currentImage ? ( 
                     <img 
-                        src={`http://localhost:8080/uploads/${currentImage.filename}`}
+                        src={`https://fit-finder-server-cafdcuckbbche3c9.centralus-01.azurewebsites.net/uploads/${currentImage.filename}`}
                         alt={currentImage.category}
                         className={styles.clothImage}
                     />

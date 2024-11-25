@@ -53,7 +53,7 @@ function AddFits() {
 
     try {
       // Send the FormData to the backend
-      const response = await axios.post('http://localhost:8080/upload', formData, {
+      const response = await axios.post('https://fit-finder-server-cafdcuckbbche3c9.centralus-01.azurewebsites.net/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }, 
       });
       console.log("File, category, and subcategory uploaded successfully:", response.data);
