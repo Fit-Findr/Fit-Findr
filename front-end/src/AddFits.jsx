@@ -1,6 +1,7 @@
-import Navbar from "./Navbar/Navbar.jsx";
+import Navbar from "./NavBar/NavBar.jsx";
 import React, { useState } from 'react';
 import axios from 'axios'; // To make HTTP requests
+import { serverUrl } from "./MainRouting.jsx";
 
 function AddFits() {
   const [selectedFile, setSelectedFile] = useState(null); // Holds the selected file
@@ -53,7 +54,7 @@ function AddFits() {
 
     try {
       // Send the FormData to the backend
-      const response = await axios.post('http://localhost:8080/upload', formData, {
+      const response = await axios.post(`${serverUrl}/upload`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }, 
       });
       console.log("File, category, and subcategory uploaded successfully:", response.data);

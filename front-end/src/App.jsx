@@ -3,7 +3,9 @@ import { useState,useEffect } from 'react';
 import ClothSelector from './ClothSelector/ClothSelector.jsx';
 import AddFits from './AddFits.jsx';
 import axios from 'axios';
-import Navbar from './Navbar/Navbar.jsx';
+import Navbar from './NavBar/NavBar.jsx';
+import { serverUrl } from './MainRouting.jsx';
+
 function App() {
 
     const [tops, setTops] = useState([]);
@@ -59,7 +61,7 @@ function App() {
         
         const fetchTops = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/images/tops');
+                const response = await axios.get(`${serverUrl}/api/images/tops`);
                 setTops([null,...response.data]);
             } catch (error) {
                 console.error('Error fetching tops:', error);
@@ -69,7 +71,7 @@ function App() {
         
         const fetchBottoms = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/images/bottoms');
+                const response = await axios.get(`${serverUrl}/api/images/bottoms`);
                 setBottoms([null,...response.data]);
             } catch (error) {
                 console.error('Error fetching bottoms:', error);
@@ -79,7 +81,7 @@ function App() {
         
         const fetchLayers = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/images/layers');
+                const response = await axios.get(`${serverUrl}/api/images/layers`);
                 setLayers([null,...response.data]);
             } catch (error) {
                 console.error('Error fetching layers:', error);
@@ -103,7 +105,7 @@ function App() {
         };
 
         try {
-            const response = await axios.post('http://localhost:8080/api/save-fit', fit);
+            const response = await axios.post(`${serverUrl}/api/save-fit`, fit);
             console.log('Fit saved successfully:', response.data);
         } catch (error) {
             console.error('Error saving fit:', error);
