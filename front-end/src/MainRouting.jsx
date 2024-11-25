@@ -5,6 +5,8 @@ import AddFits from './AddFits.jsx';
 import SavedFits from './SavedFits.jsx';
 import GeneratedFits from './GeneratedFits.jsx';
 
+export const serverUrl = "https://fit-finder-server-cafdcuckbbche3c9.centralus-01.azurewebsites.net";
+
 function MainRouting() {
 	
 	return(

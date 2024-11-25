@@ -2,6 +2,7 @@ import ClothSelector from "./ClothSelector/ClothSelector.jsx";
 import Navbar from "./NavBar/NavBar.jsx";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { serverUrl } from "./MainRouting.jsx";
 
 function GeneratedFits() {
 
@@ -60,9 +61,9 @@ function GeneratedFits() {
     const fetchClothing = async () => {
         try {
             const [topsRes, bottomsRes, layersRes] = await Promise.all([
-                axios.get('https://fit-finder-server-cafdcuckbbche3c9.centralus-01.azurewebsites.net/api/images/tops'),
-                axios.get('https://fit-finder-server-cafdcuckbbche3c9.centralus-01.azurewebsites.net/api/images/bottoms'),
-                axios.get('https://fit-finder-server-cafdcuckbbche3c9.centralus-01.azurewebsites.net/api/images/layers')
+                axios.get(`${serverUrl}/api/images/tops`),
+                axios.get(`${serverUrl}/api/images/bottoms`),
+                axios.get(`${serverUrl}/api/images/layers`)
             ]);
 
             setTops(topsRes.data);
@@ -193,19 +194,19 @@ function GeneratedFits() {
     <div className="main-container">
         <div className="outfit-container">
             {selectedLayer ? (
-                <img src={`https://fit-finder-server-cafdcuckbbche3c9.centralus-01.azurewebsites.net/uploads/${selectedLayer.filename}`} alt="Layer" className="generated-image"/>
+                <img src={`${serverUrl}/uploads/${selectedLayer.filename}`} alt="Layer" className="generated-image"/>
             ) : (
                 <div className="blank-image"></div>
             )}
 
             {selectedTop ? (
-                <img src={`https://fit-finder-server-cafdcuckbbche3c9.centralus-01.azurewebsites.net/uploads/${selectedTop.filename}`} alt="Top" className="generated-image"/>
+                <img src={`${serverUrl}/uploads/${selectedTop.filename}`} alt="Top" className="generated-image"/>
             ) : (
                 <div className="blank-image"></div>
             )}
 
             {selectedBottom ? (
-                <img src={`https://fit-finder-server-cafdcuckbbche3c9.centralus-01.azurewebsites.net/uploads/${selectedBottom.filename}`} alt="Bottom" className="generated-image"/>
+                <img src={`${serverUrl}/uploads/${selectedBottom.filename}`} alt="Bottom" className="generated-image"/>
             ) : (
                 <div className="blank-image"></div>
             )}

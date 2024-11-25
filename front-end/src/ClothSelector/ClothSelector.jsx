@@ -1,5 +1,6 @@
 import styles from './ClothSelector.module.css';
 import { useState,useEffect } from 'react';
+import { serverUrl } from '../MainRouting';
 
 function ClothSelector({ images, onSelect }) {
     const [index, setIndex] = useState(0);
@@ -31,7 +32,7 @@ function ClothSelector({ images, onSelect }) {
             <div className={styles.imageContainer}>
                 {currentImage ? ( 
                     <img 
-                        src={`https://fit-finder-server-cafdcuckbbche3c9.centralus-01.azurewebsites.net/uploads/${currentImage.filename}`}
+                        src={`${serverUrl}/uploads/${currentImage.filename}`}
                         alt={currentImage.category}
                         className={styles.clothImage}
                     />
